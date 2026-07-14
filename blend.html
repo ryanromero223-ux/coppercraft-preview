@@ -64,7 +64,7 @@ h1{font-size:clamp(27px,4.8vw,38px);margin:0 0 10px}
   padding:13px 15px;cursor:pointer;background:#fff;transition:border-color .12s}
 .tier.on{border-color:var(--copper);background:#FCF8F0;box-shadow:0 0 0 1px var(--copper)}
 .tier input{accent-color:var(--copper-dk);width:19px;height:19px;flex:none}
-.tier .t-img{width:44px;height:70px;object-fit:contain;flex:none}
+.tier .t-img{height:70px;width:auto;max-width:92px;object-fit:contain;flex:none}
 .tier .t-main{flex:1;min-width:0}
 .tier .t-label{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.8px;text-transform:uppercase;color:var(--charcoal)}
 .tier .t-name{font-size:13px;color:#6b5d4a}
@@ -75,8 +75,9 @@ h1{font-size:clamp(27px,4.8vw,38px);margin:0 0 10px}
 .price-row{display:flex;align-items:baseline;gap:12px;margin:2px 0 4px}
 .price-row .p{font-family:var(--disp);font-weight:600;font-size:34px;color:var(--charcoal)}
 .price-row .s{font-size:13px;color:#8a7a62;letter-spacing:.4px}
-.pay{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 10px}
-.pay span{font-size:11px;letter-spacing:.6px;color:#6b5d4a;border:1px solid var(--line);border-radius:4px;padding:3px 9px;background:#fff}
+.pay{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 10px}
+.pay span{width:62px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:5px;background:#fff}
+.pay img{max-height:19px;max-width:46px;width:auto;height:auto}
 .trust{font-size:12px;color:#8a7a62;line-height:1.5}
 .ship-note{font-size:12px;color:#8a7a62;margin-top:6px}
 /* press */
@@ -223,7 +224,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
       <p class="sub">Every drop in this bottle is straight bourbon. A young, punchy Michigan bourbon married to aged Indiana stock, bottled at 100 proof. It holds up in an Old Fashioned and still pours well neat.</p>
       <ul class="checks"><li>A blend of two finished straight bourbons, never cut with neutral spirit</li>
 <li>100 proof, so it doesn't disappear under ice and bitters</li>
-<li>Punchy and spicy, built for cocktails by design</li>
+<li>Punchy and spicy, exactly what an Old Fashioned asks for</li>
 <li>One bottle that covers the Old Fashioned and the neat pour</li></ul>
       <div id="buy">
         <div class="price-row"><span class="p">$42.95</span><span class="s">750 ml · 100 proof · Small batch</span></div>
@@ -241,7 +242,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
 
       <label class="tier"><span class="pop-badge">Most Popular</span>
         <input type="radio" name="tier" checked>
-        <img class="t-img" src="assets/cutout-blend.png" alt="" loading="lazy">
+        <img class="t-img" src="assets/combo-blend-nine.png" alt="" loading="lazy">
         <span class="t-main">
           <span class="t-label">The Sip &amp; Mix Pair</span>
           <span class="t-name">Blend + 9-Year Bourbon</span>
@@ -252,7 +253,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
 
       <label class="tier">
         <input type="radio" name="tier" >
-        <img class="t-img" src="assets/cutout-blend.png" alt="" loading="lazy">
+        <img class="t-img" src="assets/combo-trio-blend.png" alt="" loading="lazy">
         <span class="t-main">
           <span class="t-label">The Full Lineup</span>
           <span class="t-name">Blend + 9-Year + Rye</span>
@@ -261,12 +262,12 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
         <span class="t-price">$118.93</span>
       </label></div>
         <button class="btn js-buy">Add to Cart · <span class="cta-price">$42.95</span></button>
-        <div class="pay"><span>Visa</span>
-<span>Mastercard</span>
-<span>Amex</span>
-<span>Discover</span>
-<span>Apple Pay</span>
-<span>Google Pay</span></div>
+        <div class="pay"><span><img src="assets/pay/visa.png" alt="Visa" loading="lazy"></span>
+<span><img src="assets/pay/mastercard.png" alt="Mastercard" loading="lazy"></span>
+<span><img src="assets/pay/amex.png" alt="American Express" loading="lazy"></span>
+<span><img src="assets/pay/discover.png" alt="Discover" loading="lazy"></span>
+<span><img src="assets/pay/apple-pay.png" alt="Apple Pay" loading="lazy"></span>
+<span><img src="assets/pay/google-pay.png" alt="Google Pay" loading="lazy"></span></div>
         <p class="trust">All sales are processed and fulfilled by licensed, third-party retailers on the Flaviar Checkout network.</p>
         <p class="ship-note">Ships to most US states. Not available in AL, AK, AR, DE, HI, MS, SD, UT, or WV.</p>
       </div>
@@ -368,7 +369,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
   <div class="wrap">
     <img src="assets/cutout-blend.png" alt="Coppercraft Blend of Straight Bourbon Whiskies" loading="lazy">
     <h2>Your bar cart's new workhorse.</h2>
-    <p>100 proof, small batch, $42.95. Shipped from a licensed retailer to your door.</p>
+    <p>100 proof, small batch, $42.95. Treat the host or treat yourself.</p>
     <a class="btn" href="#buy">Add to Cart · $42.95</a>
   </div>
 </section>

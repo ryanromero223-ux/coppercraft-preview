@@ -64,7 +64,7 @@ h1{font-size:clamp(27px,4.8vw,38px);margin:0 0 10px}
   padding:13px 15px;cursor:pointer;background:#fff;transition:border-color .12s}
 .tier.on{border-color:var(--copper);background:#FCF8F0;box-shadow:0 0 0 1px var(--copper)}
 .tier input{accent-color:var(--copper-dk);width:19px;height:19px;flex:none}
-.tier .t-img{width:44px;height:70px;object-fit:contain;flex:none}
+.tier .t-img{height:70px;width:auto;max-width:92px;object-fit:contain;flex:none}
 .tier .t-main{flex:1;min-width:0}
 .tier .t-label{font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.8px;text-transform:uppercase;color:var(--charcoal)}
 .tier .t-name{font-size:13px;color:#6b5d4a}
@@ -75,8 +75,9 @@ h1{font-size:clamp(27px,4.8vw,38px);margin:0 0 10px}
 .price-row{display:flex;align-items:baseline;gap:12px;margin:2px 0 4px}
 .price-row .p{font-family:var(--disp);font-weight:600;font-size:34px;color:var(--charcoal)}
 .price-row .s{font-size:13px;color:#8a7a62;letter-spacing:.4px}
-.pay{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 10px}
-.pay span{font-size:11px;letter-spacing:.6px;color:#6b5d4a;border:1px solid var(--line);border-radius:4px;padding:3px 9px;background:#fff}
+.pay{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 10px}
+.pay span{width:62px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:5px;background:#fff}
+.pay img{max-height:19px;max-width:46px;width:auto;height:auto}
 .trust{font-size:12px;color:#8a7a62;line-height:1.5}
 .ship-note{font-size:12px;color:#8a7a62;margin-top:6px}
 /* press */
@@ -244,7 +245,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft 9
 
       <label class="tier"><span class="pop-badge">Most Popular</span>
         <input type="radio" name="tier" checked>
-        <img class="t-img" src="assets/cutout-9yr.png" alt="" loading="lazy">
+        <img class="t-img" src="assets/combo-nine-blend.png" alt="" loading="lazy">
         <span class="t-main">
           <span class="t-label">The Sip &amp; Mix Pair</span>
           <span class="t-name">9-Year + 100-Proof Blend</span>
@@ -255,7 +256,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft 9
 
       <label class="tier">
         <input type="radio" name="tier" >
-        <img class="t-img" src="assets/cutout-9yr.png" alt="" loading="lazy">
+        <img class="t-img" src="assets/combo-trio-nine.png" alt="" loading="lazy">
         <span class="t-main">
           <span class="t-label">The Full Lineup</span>
           <span class="t-name">9-Year + Blend + Rye</span>
@@ -264,12 +265,12 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft 9
         <span class="t-price">$118.93</span>
       </label></div>
         <button class="btn js-buy">Add to Cart · <span class="cta-price">$37.99</span></button>
-        <div class="pay"><span>Visa</span>
-<span>Mastercard</span>
-<span>Amex</span>
-<span>Discover</span>
-<span>Apple Pay</span>
-<span>Google Pay</span></div>
+        <div class="pay"><span><img src="assets/pay/visa.png" alt="Visa" loading="lazy"></span>
+<span><img src="assets/pay/mastercard.png" alt="Mastercard" loading="lazy"></span>
+<span><img src="assets/pay/amex.png" alt="American Express" loading="lazy"></span>
+<span><img src="assets/pay/discover.png" alt="Discover" loading="lazy"></span>
+<span><img src="assets/pay/apple-pay.png" alt="Apple Pay" loading="lazy"></span>
+<span><img src="assets/pay/google-pay.png" alt="Google Pay" loading="lazy"></span></div>
         <p class="trust">All sales are processed and fulfilled by licensed, third-party retailers on the Flaviar Checkout network.</p>
         <p class="ship-note">Ships to most US states. Not available in AL, AK, AR, DE, HI, MS, SD, UT, or WV.</p>
       </div>
@@ -304,7 +305,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft 9
 <section class="pad dark">
   <div class="wrap">
     <h2>Three facts on the label.</h2>
-    <p>Everything that matters is printed on the front of the bottle.</p>
+    <p>Want to know if a bourbon's worth it? The front of the bottle will tell you.</p>
     <div class="cards"><div class="card"><h3>9 YEARS</h3><p>An age statement has to be true. It's federal law. The 9 on this label means nine real years in the barrel.</p></div>
 <div class="card"><h3>90.6 PROOF</h3><p>Enough strength to carry the oak, the spice, and the dark sweets. Pour it neat or over one big cube.</p></div>
 <div class="card"><h3>HONEST SOURCING</h3><p>It's aged Indiana stock, and the label says so instead of hiding it. Whiskey folks respect that kind of honesty.</p></div></div>
@@ -339,7 +340,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft 9
     <img src="assets/9yr-lineup-smoke.jpg" alt="The Coppercraft whiskey lineup" loading="lazy">
     <div>
       <h2>Buying it as a gift? The 9 makes it a safe pick.</h2>
-      <p>You can't taste a bottle before you give it. That's the anxiety. So let the label vouch for you: a real 9-year age statement reads as quality before the cork comes out.</p>
+      <p>You can't taste a bottle before you give it. That's the anxiety. So let the label make your case. A real 9-year age statement reads as quality before the cork even comes out.</p>
 <p>“If you want something that puts a smile on most peoples faces, this is your whiskey.” That one's from a real Coppercraft review. It's about the nicest thing anyone can say about a gift bottle.</p>
 <p>And if the occasion is a big one, show up with the Full Lineup. Three bottles makes you the person who actually pays attention.</p>
       <a class="btn" style="max-width:340px" href="#buy">See the bottle options</a>
@@ -373,7 +374,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft 9
   <div class="wrap">
     <img src="assets/cutout-9yr.png" alt="Coppercraft 9-Year Straight Bourbon" loading="lazy">
     <h2>Nine years in the barrel. A few days to your door.</h2>
-    <p>Bottled in small batches in Holland, Michigan. Still $37.99.</p>
+    <p>Bottled in small batches in Holland, Michigan. Your glass is ready when you are.</p>
     <a class="btn" href="#buy">Add to Cart · $37.99</a>
   </div>
 </section>
