@@ -155,6 +155,35 @@ footer nav a{color:#C9BCA0;text-decoration:none;font-size:13px}
 .mbar .mp{font-family:var(--disp);font-weight:600;color:var(--cream);font-size:18px;white-space:nowrap}
 .mbar .btn{padding:12px 16px;font-size:15px}
 @media(min-width:900px){.mbar{display:none} footer{padding-bottom:38px}}
+/* cart drawer */
+.cart-ov{position:fixed;inset:0;background:rgba(16,12,8,.55);z-index:80;opacity:0;pointer-events:none;transition:opacity .2s}
+.cart-ov.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--paper);z-index:90;transform:translateX(105%);transition:transform .25s;display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.25)}
+.drawer.open{transform:none}
+.d-head{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;background:var(--nearblack)}
+.d-head .t{font-family:var(--disp);font-weight:600;font-size:18px;letter-spacing:1.2px;text-transform:uppercase;color:var(--cream)}
+.d-head button{background:none;border:0;color:var(--cream);font-size:24px;cursor:pointer;line-height:1;padding:2px 6px}
+.d-timer{background:var(--cream);color:var(--charcoal);text-align:center;font-size:13.5px;padding:9px 12px;border-bottom:1px solid var(--line)}
+.d-timer b{font-variant-numeric:tabular-nums}
+.d-items{flex:1;overflow-y:auto;padding:6px 18px}
+.d-row{display:flex;gap:13px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.d-row img{height:66px;width:auto}
+.d-row .m{flex:1;min-width:0}
+.d-row .nm{font-weight:600;color:var(--charcoal);font-size:14.5px}
+.d-row .pr{font-family:var(--disp);font-weight:600;color:var(--charcoal);font-size:15px;margin-top:2px}
+.qty{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:8px;background:#fff}
+.qty button{width:29px;height:27px;border:0;background:#fff;cursor:pointer;font-size:15px;color:var(--charcoal)}
+.qty span{width:30px;text-align:center;font-size:13.5px;line-height:27px}
+.d-row .rm{background:none;border:0;cursor:pointer;color:#8a7a62;padding:4px}
+.d-row .rm svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+.d-empty{text-align:center;color:#8a7a62;padding:56px 20px;font-size:14.5px}
+.d-foot{padding:14px 18px 18px;border-top:1px solid var(--line)}
+.d-foot .pay{justify-content:center;margin:12px 0 0}
+.hdr-right{display:flex;align-items:center;gap:12px}
+.cartbtn{position:relative;background:none;border:0;cursor:pointer;padding:4px}
+.cartbtn svg{width:25px;height:25px;stroke:var(--cream);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cartbtn .ct{position:absolute;top:-5px;right:-7px;background:var(--copper);color:#fff;font-size:10.5px;font-weight:700;border-radius:10px;min-width:17px;height:17px;line-height:17px;text-align:center;padding:0 3px;display:none}
+.btn svg.bic{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;margin-right:9px}
 /* age gate */
 #age{position:fixed;inset:0;z-index:100;background:rgba(16,12,8,.94);display:flex;align-items:center;justify-content:center;padding:20px}
 #age .box{background:var(--paper);border-radius:12px;max-width:420px;width:100%;padding:38px 30px;text-align:center}
@@ -198,9 +227,31 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
 <header class="hdr">
   <div class="wrap">
     <img src="assets/logo-white.png" alt="Coppercraft Distillery, Holland, Michigan">
-    <a class="hbtn" href="#buy">Get the bottle · $42.95</a>
+    <div class="hdr-right">
+      <a class="hbtn" href="#buy">Get the bottle · $42.95</a>
+      <button class="cartbtn" aria-label="Cart">
+        <svg viewBox="0 0 24 24"><path d="M6 7h12l1.2 12.2a1.8 1.8 0 0 1-1.8 1.8H6.6a1.8 1.8 0 0 1-1.8-1.8L6 7z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+        <span class="ct"></span>
+      </button>
+    </div>
   </div>
 </header>
+
+<div class="cart-ov"></div>
+<aside class="drawer" aria-label="Cart">
+  <div class="d-head"><span class="t">Cart</span><button onclick="ccCloseCart()" aria-label="Close">×</button></div>
+  <div class="d-timer" style="display:none"></div>
+  <div class="d-items"></div>
+  <div class="d-foot d-co" style="display:none">
+    <button class="btn">Checkout</button>
+    <div class="pay"><span><img src="assets/pay/visa.png" alt="Visa" loading="lazy"></span>
+<span><img src="assets/pay/mastercard.png" alt="Mastercard" loading="lazy"></span>
+<span><img src="assets/pay/amex.png" alt="American Express" loading="lazy"></span>
+<span><img src="assets/pay/discover.png" alt="Discover" loading="lazy"></span>
+<span><img src="assets/pay/apple-pay.png" alt="Apple Pay" loading="lazy"></span>
+<span><img src="assets/pay/google-pay.png" alt="Google Pay" loading="lazy"></span></div>
+  </div>
+</aside>
 
 <section class="hero">
   <div class="wrap hero-grid">
@@ -262,7 +313,7 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
         </span>
         <span class="t-price">$118.93</span>
       </label></div>
-        <button class="btn js-buy">Add to Cart · <span class="cta-price">$42.95</span></button>
+        <button class="btn js-buy"><svg class="bic" viewBox="0 0 24 24"><path d="M6 7h12l1.2 12.2a1.8 1.8 0 0 1-1.8 1.8H6.6a1.8 1.8 0 0 1-1.8-1.8L6 7z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>Add to Cart · <span class="cta-price">$42.95</span></button>
         <div class="pay"><span><img src="assets/pay/visa.png" alt="Visa" loading="lazy"></span>
 <span><img src="assets/pay/mastercard.png" alt="Mastercard" loading="lazy"></span>
 <span><img src="assets/pay/amex.png" alt="American Express" loading="lazy"></span>
@@ -388,11 +439,12 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
 
 <div class="mbar">
   <span class="mp"><span class="cta-price">$42.95</span></span>
-  <button class="btn js-buy">Add to Cart</button>
+  <button class="btn js-buy"><svg class="bic" viewBox="0 0 24 24"><path d="M6 7h12l1.2 12.2a1.8 1.8 0 0 1-1.8 1.8H6.6a1.8 1.8 0 0 1-1.8-1.8L6 7z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>Add to Cart</button>
 </div>
 
 <script>
 (function(){
+  var CARTSVG='<svg class="bic" viewBox="0 0 24 24"><path d="M6 7h12l1.2 12.2a1.8 1.8 0 0 1-1.8 1.8H6.6a1.8 1.8 0 0 1-1.8-1.8L6 7z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>';
   /* ---------- age gate ---------- */
   var gate=document.getElementById('age');
   try{ if(localStorage.getItem('cc21')==='1'){gate.remove();} else {document.body.classList.add('gated');} }catch(e){document.body.classList.add('gated');}
@@ -415,9 +467,12 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
   },{passive:true});
   setOn(0);
 
-  /* ---------- tiers + checkout ---------- */
+  /* ---------- tiers ---------- */
   var VARIANTS={"nine": "51261476110642", "rye": "45816466342194", "blend": "45816465686834"};
   var TIERS=[{"key": "single", "price": "$42.95", "value": 42.95, "items": [["blend", 1]], "popular": false}, {"key": "duo", "price": "$80.94", "value": 80.94, "items": [["blend", 1], ["nine", 1]], "popular": true}, {"key": "trio", "price": "$118.93", "value": 118.93, "items": [["blend", 1], ["nine", 1], ["rye", 1]], "popular": false}];
+  var PRICES={nine:37.99,rye:37.99,blend:42.95};
+  var NAMES={nine:'9-Year Straight Bourbon',rye:'Rye Whiskey',blend:'Blend of Straight Bourbons'};
+  var THUMBS={nine:'assets/cutout-9yr.png',rye:'assets/cutout-rye.png',blend:'assets/cutout-blend.png'};
   var picked=TIERS.findIndex(function(t){return t.popular;}); if(picked<0)picked=0;
   var tierEls=[].slice.call(document.querySelectorAll('.tier'));
   function pick(i){
@@ -431,12 +486,89 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
   tierEls.forEach(function(el,i){el.addEventListener('click',function(){pick(i);});});
   pick(picked);
 
-  function checkout(){
+  /* ---------- cart (shared across the 3 pages via localStorage) ---------- */
+  var RESERVE_MS=10*60*1000;
+  function loadCart(){ try{ return JSON.parse(localStorage.getItem('ccCartV1'))||{items:{},exp:0}; }catch(e){ return {items:{},exp:0}; } }
+  function saveCart(){ try{ localStorage.setItem('ccCartV1',JSON.stringify(cart)); }catch(e){} }
+  var cart=loadCart();
+  var drawer=document.querySelector('.drawer'), ov=document.querySelector('.cart-ov');
+  function money(n){ return '$'+n.toFixed(2); }
+  function count(){ var n=0; for(var k in cart.items) n+=cart.items[k]; return n; }
+  function subtotal(){ var s=0; for(var k in cart.items) s+=PRICES[k]*cart.items[k]; return s; }
+  function openCart(){ drawer.classList.add('open'); ov.classList.add('open'); }
+  function closeCart(){ drawer.classList.remove('open'); ov.classList.remove('open'); }
+  window.ccCloseCart=closeCart;
+  ov.addEventListener('click',closeCart);
+
+  function render(){
+    var box=drawer.querySelector('.d-items');
+    var keys=Object.keys(cart.items).filter(function(k){return cart.items[k]>0;});
+    var badge=document.querySelector('.cartbtn .ct');
+    var n=count();
+    if(badge){ badge.textContent=n; badge.style.display=n?'block':'none'; }
+    drawer.querySelector('.d-head .t').textContent='Cart · '+n;
+    if(!keys.length){
+      box.innerHTML='<div class="d-empty">Your cart is empty. Your glass is ready when you are.</div>';
+      drawer.querySelector('.d-co').style.display='none';
+      return;
+    }
+    drawer.querySelector('.d-co').style.display='block';
+    var trash='<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m3 0l-1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7"/></svg>';
+    box.innerHTML=keys.map(function(k){
+      return '<div class="d-row" data-k="'+k+'">'
+        +'<img src="'+THUMBS[k]+'" alt="">'
+        +'<div class="m"><div class="nm">Coppercraft '+NAMES[k]+'</div><div class="pr">'+money(PRICES[k]*cart.items[k])+'</div>'
+        +'<div class="qty"><button data-d="-1">−</button><span>'+cart.items[k]+'</span><button data-d="1">+</button></div></div>'
+        +'<button class="rm" aria-label="Remove">'+trash+'</button></div>';
+    }).join('');
+    drawer.querySelector('.d-co .btn').innerHTML=CARTSVG+'Checkout · '+money(subtotal());
+    [].slice.call(box.querySelectorAll('.qty button')).forEach(function(b){
+      b.addEventListener('click',function(){
+        var k=b.closest('.d-row').dataset.k;
+        cart.items[k]=Math.max(0,(cart.items[k]||0)+parseInt(b.dataset.d,10));
+        if(!cart.items[k]) delete cart.items[k];
+        saveCart(); render();
+      });
+    });
+    [].slice.call(box.querySelectorAll('.rm')).forEach(function(b){
+      b.addEventListener('click',function(){
+        delete cart.items[b.closest('.d-row').dataset.k];
+        saveCart(); render();
+      });
+    });
+  }
+
+  /* reservation timer */
+  function tick(){
+    var el=drawer.querySelector('.d-timer');
+    var left=cart.exp-Date.now();
+    if(count()&&left>0){
+      var m=Math.floor(left/60000), s=Math.floor(left%60000/1000);
+      el.style.display='block';
+      el.innerHTML='Your bottles are reserved for <b>'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s+'</b>';
+    }else{ el.style.display='none'; }
+  }
+  setInterval(tick,1000);
+
+  function addTier(){
     var t=TIERS[picked];
-    var btns=[].slice.call(document.querySelectorAll('.js-buy'));
-    btns.forEach(function(b){b.setAttribute('disabled','');b.dataset.txt=b.textContent;b.textContent='OPENING SECURE CHECKOUT…';});
+    t.items.forEach(function(x){ cart.items[x[0]]=(cart.items[x[0]]||0)+x[1]; });
+    cart.exp=Date.now()+RESERVE_MS;
+    saveCart(); render(); tick(); openCart();
     try{ if(window.fbq){ fbq('track','AddToCart',{content_type:'product',content_ids:t.items.map(function(x){return VARIANTS[x[0]];}),value:t.value,currency:'USD'}); } }catch(e){}
-    var lines=t.items.map(function(x){return {merchandiseId:'gid://shopify/ProductVariant/'+VARIANTS[x[0]],quantity:x[1]};});
+  }
+  [].slice.call(document.querySelectorAll('.js-buy')).forEach(function(b){b.addEventListener('click',addTier);});
+  var hdrCart=document.querySelector('.cartbtn');
+  if(hdrCart) hdrCart.addEventListener('click',function(){ render(); tick(); openCart(); });
+
+  /* checkout from the drawer */
+  function checkoutCart(){
+    var keys=Object.keys(cart.items).filter(function(k){return cart.items[k]>0;});
+    if(!keys.length) return;
+    var btn=drawer.querySelector('.d-co .btn');
+    btn.setAttribute('disabled',''); btn.textContent='OPENING SECURE CHECKOUT…';
+    try{ if(window.fbq){ fbq('track','InitiateCheckout',{value:subtotal(),currency:'USD'}); } }catch(e){}
+    var lines=keys.map(function(k){return {merchandiseId:'gid://shopify/ProductVariant/'+VARIANTS[k],quantity:cart.items[k]};});
     var q='mutation($lines:[CartLineInput!]!){cartCreate(input:{lines:$lines}){cart{checkoutUrl}userErrors{message}}}';
     fetch('https://barcart.coppercraftdistillery.com/api/2024-01/graphql.json',{
       method:'POST',
@@ -444,19 +576,19 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
       body:JSON.stringify({query:q,variables:{lines:lines}})
     }).then(function(r){return r.json();}).then(function(d){
       var url=d&&d.data&&d.data.cartCreate&&d.data.cartCreate.cart&&d.data.cartCreate.cart.checkoutUrl;
-      if(url){ window.location.href=url; }
-      else{ fallback(t); }
-    }).catch(function(){ fallback(t); });
-    setTimeout(function(){btns.forEach(function(b){b.removeAttribute('disabled');if(b.dataset.txt)b.textContent=b.dataset.txt;});},9000);
+      if(url){ window.location.href=url; } else { fallback(keys); }
+    }).catch(function(){ fallback(keys); });
+    setTimeout(function(){ btn.removeAttribute('disabled'); render(); },9000);
   }
-  function fallback(t){
-    if(t.items.length===1){
-      window.location.href='https://barcart.coppercraftdistillery.com/cart/'+VARIANTS[t.items[0][0]]+':'+t.items[0][1];
+  function fallback(keys){
+    if(keys.length===1 && keys[0]!=='rye'){
+      window.location.href='https://barcart.coppercraftdistillery.com/cart/'+VARIANTS[keys[0]]+':'+cart.items[keys[0]];
     }else{
       window.location.href='https://coppercraftdistillery.com/buy-online/';
     }
   }
-  [].slice.call(document.querySelectorAll('.js-buy')).forEach(function(b){b.addEventListener('click',checkout);});
+  drawer.querySelector('.d-co .btn').addEventListener('click',checkoutCart);
+  render(); tick();
 
   /* ---------- mobile bar ---------- */
   var bar=document.querySelector('.mbar');
