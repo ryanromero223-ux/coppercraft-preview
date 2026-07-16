@@ -22,7 +22,7 @@ PRESS_LOGOS = [
 PRIVACY_URL = "https://coppercraftdistillery.com/terms-privacy/"
 BASE_URL = "https://coppercraftwhiskey.com"
 # Paste the code from Business Manager -> Brand safety -> Domains -> coppercraftwhiskey.com
-META_DOMAIN_VERIFICATION = ""
+META_DOMAIN_VERIFICATION = "u1y8xm7dxpoiahbb1w0u876bwdvzy1"
 
 STEP_ICONS = [
     # bottle
