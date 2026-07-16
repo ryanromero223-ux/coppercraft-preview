@@ -19,6 +19,27 @@ PRESS_LOGOS = [
     ("The Manual", "assets/press/the-manual.svg", 20),
     ("The Knockturnal", "assets/press/knockturnal.png", 17),
 ]
+# Award laurels lifted from coppercraftdistillery.com product pages (Ryan 2026-07-16:
+# the brand site is the source of truth for award claims; each page shows only the
+# laurels its own SKU page displays there)
+AWARDS = {
+    "9-year.html": [
+        ("assets/awards/Coppercraft_AwardsGraphics_Laurel_SFWSC_2025_Silver_SBW9Yr.png",
+         "Silver, San Francisco World Spirits Competition 2025, Straight Bourbon Whiskey 9 Year"),
+    ],
+    "rye.html": [
+        ("assets/awards/Coppercraft_AwardsGraphics_Laurel_NYWSC_2022_DoubleGold_Rye.png",
+         "Double Gold, New York World Wine and Spirits Competition 2022, Rye Whiskey"),
+        ("assets/awards/2022_San_Francisco_Spirits_Competition.svg",
+         "Gold, San Francisco World Spirits Competition 2022"),
+        ("assets/awards/NYISC-2021-Gold-Rye.svg",
+         "Gold, New York International Spirits Competition 2021"),
+    ],
+    "blend.html": [
+        ("assets/awards/michigan-bourbon-distillery-of-the-year.svg",
+         "Michigan Bourbon Distillery of the Year, New York International Spirits Competition 2018"),
+    ],
+}
 PRIVACY_URL = "https://coppercraftdistillery.com/terms-privacy/"
 BASE_URL = "https://coppercraftwhiskey.com"
 # Paste the code from Business Manager -> Brand safety -> Domains -> coppercraftwhiskey.com
@@ -191,6 +212,11 @@ footer nav a{color:#C9BCA0;text-decoration:none;font-size:13px}
 .mbar .mp{font-family:var(--disp);font-weight:600;color:var(--cream);font-size:18px;white-space:nowrap}
 .mbar .btn{padding:12px 16px;font-size:15px}
 @media(min-width:900px){.mbar{display:none} footer{padding-bottom:38px}}
+/* award laurels */
+.laurels{display:flex;align-items:center;gap:26px;flex-wrap:wrap;margin:20px 0 6px}
+.laurels img{height:64px;width:auto}
+@media(max-width:520px){.laurels{gap:18px}.laurels img{height:54px}}
+
 /* cart drawer */
 .cart-ov{position:fixed;inset:0;background:rgba(16,12,8,.55);z-index:80;opacity:0;pointer-events:none;transition:opacity .2s}
 .cart-ov.open{opacity:1;pointer-events:auto}
@@ -523,6 +549,8 @@ def render(pagekey):
     # compact press strip for the cart drawer (same verified outlets, ~60% scale)
     drawer_press = "\n".join(f'<img src="{f}" alt="{esc(n)}" style="height:{max(11, int(h*0.62))}px" loading="lazy">'
                              for n, f, h in PRESS_LOGOS)
+    laurels = "\n".join(f'<img src="{f}" alt="{esc(a)}">' for f, a in AWARDS.get(p["file"], []))
+    laurels = f'<div class="laurels">{laurels}</div>' if laurels else ""
 
     problem_ps = "\n".join(f"<p>{esc(x)}</p>" for x in p["problem_ps"])
     mech_cards = "\n".join(f'<div class="card"><h3>{esc(t)}</h3><p>{esc(b)}</p></div>'
@@ -609,6 +637,7 @@ def render(pagekey):
       <p class="tagline">{esc(p['tagline'])}</p>
       <p class="sub">{esc(p['sub'])}</p>
       <ul class="checks">{bullets}</ul>
+      {laurels}
       <div id="buy">
         <div class="price-row"><span class="p">{p['price']}</span><span class="s">{esc(p['specs'])}</span></div>
         <div class="tiers">{tiers_html}</div>
