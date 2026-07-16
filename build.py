@@ -129,9 +129,6 @@ h1{font-size:clamp(27px,4.8vw,38px);margin:0 0 10px}
 .tier .t-price{font-family:var(--disp);font-weight:600;font-size:19px;color:var(--charcoal);white-space:nowrap}
 .pop-badge{position:absolute;top:-10px;right:12px;background:var(--copper);color:#fff;font-family:var(--disp);
   font-weight:600;font-size:10.5px;letter-spacing:1.4px;padding:3px 10px;border-radius:20px;text-transform:uppercase}
-.price-row{display:flex;align-items:baseline;gap:12px;margin:2px 0 4px}
-.price-row .p{font-family:var(--disp);font-weight:600;font-size:34px;color:var(--charcoal)}
-.price-row .s{font-size:13px;color:#8a7a62;letter-spacing:.4px}
 .pay{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 10px}
 .pay span{width:62px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:5px;background:#fff}
 .pay img{max-height:19px;max-width:46px;width:auto;height:auto}
@@ -638,7 +635,6 @@ def render(pagekey):
       <p class="sub">{esc(p['sub'])}</p>
       <ul class="checks">{bullets}</ul>
       <div id="buy">
-        <div class="price-row"><span class="p">{p['price']}</span><span class="s">{esc(p['specs'])}</span></div>
         <div class="tiers">{tiers_html}</div>
         <button class="btn js-buy"><svg class="bic" viewBox="0 0 24 24"><path d="M6 7h12l1.2 12.2a1.8 1.8 0 0 1-1.8 1.8H6.6a1.8 1.8 0 0 1-1.8-1.8L6 7z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>Add to Cart · <span class="cta-price">{p['price']}</span></button>
         <div class="pay">{pay}</div>
