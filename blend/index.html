@@ -518,6 +518,14 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
   function loadCart(){ try{ return JSON.parse(localStorage.getItem('ccCartV1'))||{items:{},exp:0}; }catch(e){ return {items:{},exp:0}; } }
   function saveCart(){ try{ localStorage.setItem('ccCartV1',JSON.stringify(cart)); }catch(e){} }
   var cart=loadCart();
+  /* carry ad UTMs (and fbclid) through to the Shopify checkout so orders
+     are attributable in the Flaviar/BarCart dashboard */
+  var UTM='';
+  try{
+    if(location.search.length>1) sessionStorage.setItem('ccUTM',location.search.slice(1));
+    UTM=sessionStorage.getItem('ccUTM')||'';
+  }catch(e){}
+  function withUTM(url){ return UTM ? url+(url.indexOf('?')>-1?'&':'?')+UTM : url; }
   var drawer=document.querySelector('.drawer'), ov=document.querySelector('.cart-ov');
   function money(n){ return '$'+n.toFixed(2); }
   function count(){ var n=0; for(var k in cart.items) n+=cart.items[k]; return n; }
@@ -629,13 +637,13 @@ fbq('track', 'ViewContent', {content_type:'product', content_name:'Coppercraft B
       body:JSON.stringify({query:q,variables:{lines:lines}})
     }).then(function(r){return r.json();}).then(function(d){
       var url=d&&d.data&&d.data.cartCreate&&d.data.cartCreate.cart&&d.data.cartCreate.cart.checkoutUrl;
-      if(url){ window.location.href=url; } else { fallback(keys); }
+      if(url){ window.location.href=withUTM(url); } else { fallback(keys); }
     }).catch(function(){ fallback(keys); });
     setTimeout(function(){ btn.removeAttribute('disabled'); render(); },9000);
   }
   function fallback(keys){
     if(keys.length===1 && keys[0]!=='rye'){
-      window.location.href='https://barcart.coppercraftdistillery.com/cart/'+VARIANTS[keys[0]]+':'+cart.items[keys[0]];
+      window.location.href=withUTM('https://barcart.coppercraftdistillery.com/cart/'+VARIANTS[keys[0]]+':'+cart.items[keys[0]]);
     }else{
       window.location.href='https://coppercraftdistillery.com/buy-online/';
     }
