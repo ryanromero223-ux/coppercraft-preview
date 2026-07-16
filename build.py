@@ -212,9 +212,29 @@ footer nav a{color:#C9BCA0;text-decoration:none;font-size:13px}
 .qty span{width:30px;text-align:center;font-size:13.5px;line-height:27px}
 .d-row .rm{background:none;border:0;cursor:pointer;color:#8a7a62;padding:4px}
 .d-row .rm svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
-.d-empty{text-align:center;color:#8a7a62;padding:56px 20px;font-size:14.5px}
+.d-empty{text-align:center;color:#8a7a62;padding:26px 20px 10px;font-size:14.5px}
 .d-foot{padding:14px 18px 18px;border-top:1px solid var(--line)}
 .d-foot .pay{justify-content:center;margin:12px 0 0}
+/* lineup progress */
+.d-progress{padding:12px 18px 10px;border-bottom:1px solid var(--line)}
+.d-progress .dp-t{font-family:var(--disp);font-weight:500;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#6b5d4a;text-align:center;margin-bottom:8px}
+.dp-bar{display:flex;gap:5px}
+.dp-bar i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.dp-bar i.on{background:var(--copper)}
+/* complete-the-lineup cross-sell */
+.dx-h{font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:1.4px;text-transform:uppercase;color:var(--charcoal);padding:16px 0 2px}
+.dx-row{display:flex;gap:13px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.dx-row img{height:54px;width:auto}
+.dx-row .m{flex:1;min-width:0}
+.dx-row .nm{font-weight:600;color:var(--charcoal);font-size:13.5px}
+.dx-row .pr{font-size:13px;color:#6b5d4a;margin-top:1px}
+.dx-add{background:var(--copper);color:#fff;border:0;border-radius:6px;padding:9px 14px;cursor:pointer;font-family:var(--disp);font-weight:600;font-size:13px;letter-spacing:.8px;text-transform:uppercase;white-space:nowrap}
+.dx-add:hover{background:var(--copper-dk)}
+/* drawer press strip */
+.d-press{margin-top:12px;text-align:center}
+.d-press .lb{font-family:var(--disp);font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:#8a7a62;margin-bottom:7px}
+.d-press .row{display:flex;justify-content:center;align-items:center;gap:13px;flex-wrap:wrap}
+.d-press img{filter:brightness(0);opacity:.5;width:auto}
 .hdr-right{display:flex;align-items:center;gap:12px}
 .cartbtn{position:relative;background:none;border:0;cursor:pointer;padding:4px}
 .cartbtn svg{width:25px;height:25px;stroke:var(--cream);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -291,6 +311,13 @@ JS_TEMPLATE = r"""
   window.ccCloseCart=closeCart;
   ov.addEventListener('click',closeCart);
 
+  function distinct(){ var n=0; for(var k in PRICES) if(cart.items[k]>0) n++; return n; }
+  function addOne(k){
+    cart.items[k]=(cart.items[k]||0)+1;
+    cart.exp=Date.now()+RESERVE_MS;
+    saveCart(); render(); tick();
+    try{ if(window.fbq){ fbq('track','AddToCart',{content_type:'product',content_ids:[VARIANTS[k]],value:PRICES[k],currency:'USD'}); } }catch(e){}
+  }
   function render(){
     var box=drawer.querySelector('.d-items');
     var keys=Object.keys(cart.items).filter(function(k){return cart.items[k]>0;});
@@ -298,34 +325,53 @@ JS_TEMPLATE = r"""
     var n=count();
     if(badge){ badge.textContent=n; badge.style.display=n?'block':'none'; }
     drawer.querySelector('.d-head .t').textContent='Cart · '+n;
-    if(!keys.length){
-      box.innerHTML='<div class="d-empty">Your cart is empty. Your glass is ready when you are.</div>';
-      drawer.querySelector('.d-co').style.display='none';
-      return;
+    /* lineup progress bar */
+    var d=distinct();
+    drawer.querySelector('.d-progress .dp-t').textContent=(d===3)?'The full lineup is in your cart':d+' of 3 bottles in the lineup';
+    [].slice.call(drawer.querySelectorAll('.dp-bar i')).forEach(function(seg,i){ seg.className=(i<d)?'on':''; });
+    /* complete-the-lineup rows for whatever is missing */
+    var missing=Object.keys(PRICES).filter(function(k){return !cart.items[k];});
+    var cross='';
+    if(missing.length){
+      cross='<div class="dx-h">'+(keys.length?'Complete the lineup':'Pick your bottle')+'</div>'
+        +missing.map(function(k){
+          return '<div class="dx-row">'
+            +'<img src="'+THUMBS[k]+'" alt="">'
+            +'<div class="m"><div class="nm">Coppercraft '+NAMES[k]+'</div><div class="pr">'+money(PRICES[k])+'</div></div>'
+            +'<button class="dx-add" data-k="'+k+'">+ Add</button></div>';
+        }).join('');
     }
-    drawer.querySelector('.d-co').style.display='block';
-    var trash='<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m3 0l-1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7"/></svg>';
-    box.innerHTML=keys.map(function(k){
-      return '<div class="d-row" data-k="'+k+'">'
-        +'<img src="'+THUMBS[k]+'" alt="">'
-        +'<div class="m"><div class="nm">Coppercraft '+NAMES[k]+'</div><div class="pr">'+money(PRICES[k]*cart.items[k])+'</div>'
-        +'<div class="qty"><button data-d="-1">−</button><span>'+cart.items[k]+'</span><button data-d="1">+</button></div></div>'
-        +'<button class="rm" aria-label="Remove">'+trash+'</button></div>';
-    }).join('');
-    drawer.querySelector('.d-co .btn').innerHTML=CARTSVG+'Checkout · '+money(subtotal());
-    [].slice.call(box.querySelectorAll('.qty button')).forEach(function(b){
-      b.addEventListener('click',function(){
-        var k=b.closest('.d-row').dataset.k;
-        cart.items[k]=Math.max(0,(cart.items[k]||0)+parseInt(b.dataset.d,10));
-        if(!cart.items[k]) delete cart.items[k];
-        saveCart(); render();
+    if(!keys.length){
+      box.innerHTML='<div class="d-empty">Your glass is ready when you are.</div>'+cross;
+      drawer.querySelector('.d-co').style.display='none';
+    }else{
+      drawer.querySelector('.d-co').style.display='block';
+      var trash='<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m3 0l-1 13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 7"/></svg>';
+      box.innerHTML=keys.map(function(k){
+        return '<div class="d-row" data-k="'+k+'">'
+          +'<img src="'+THUMBS[k]+'" alt="">'
+          +'<div class="m"><div class="nm">Coppercraft '+NAMES[k]+'</div><div class="pr">'+money(PRICES[k]*cart.items[k])+'</div>'
+          +'<div class="qty"><button data-d="-1">−</button><span>'+cart.items[k]+'</span><button data-d="1">+</button></div></div>'
+          +'<button class="rm" aria-label="Remove">'+trash+'</button></div>';
+      }).join('')+cross;
+      drawer.querySelector('.d-co .btn').innerHTML=CARTSVG+'Checkout · '+money(subtotal());
+      [].slice.call(box.querySelectorAll('.qty button')).forEach(function(b){
+        b.addEventListener('click',function(){
+          var k=b.closest('.d-row').dataset.k;
+          cart.items[k]=Math.max(0,(cart.items[k]||0)+parseInt(b.dataset.d,10));
+          if(!cart.items[k]) delete cart.items[k];
+          saveCart(); render();
+        });
       });
-    });
-    [].slice.call(box.querySelectorAll('.rm')).forEach(function(b){
-      b.addEventListener('click',function(){
-        delete cart.items[b.closest('.d-row').dataset.k];
-        saveCart(); render();
+      [].slice.call(box.querySelectorAll('.rm')).forEach(function(b){
+        b.addEventListener('click',function(){
+          delete cart.items[b.closest('.d-row').dataset.k];
+          saveCart(); render();
+        });
       });
+    }
+    [].slice.call(box.querySelectorAll('.dx-add')).forEach(function(b){
+      b.addEventListener('click',function(){ addOne(b.dataset.k); });
     });
   }
 
@@ -466,6 +512,9 @@ def render(pagekey):
     pay = "\n".join(f'<span><img src="{f}" alt="{esc(n)}" loading="lazy"></span>' for n, f in PAYMENTS)
     press = "\n".join(f'<img src="{f}" alt="{esc(n)}" style="height:{h}px" loading="lazy">'
                       for n, f, h in PRESS_LOGOS)
+    # compact press strip for the cart drawer (same verified outlets, ~60% scale)
+    drawer_press = "\n".join(f'<img src="{f}" alt="{esc(n)}" style="height:{max(11, int(h*0.62))}px" loading="lazy">'
+                             for n, f, h in PRESS_LOGOS)
 
     problem_ps = "\n".join(f"<p>{esc(x)}</p>" for x in p["problem_ps"])
     mech_cards = "\n".join(f'<div class="card"><h3>{esc(t)}</h3><p>{esc(b)}</p></div>'
@@ -531,9 +580,11 @@ def render(pagekey):
 <aside class="drawer" aria-label="Cart">
   <div class="d-head"><span class="t">Cart</span><button onclick="ccCloseCart()" aria-label="Close">×</button></div>
   <div class="d-timer" style="display:none"></div>
+  <div class="d-progress"><div class="dp-t"></div><div class="dp-bar"><i></i><i></i><i></i></div></div>
   <div class="d-items"></div>
   <div class="d-foot d-co" style="display:none">
     <button class="btn">Checkout</button>
+    <div class="d-press"><div class="lb">As featured in</div><div class="row">{drawer_press}</div></div>
     <div class="pay">{pay}</div>
   </div>
 </aside>
